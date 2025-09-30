@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tvEstudiante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estudiante: Juan Pérez"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvCurso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Curso: Matemáticas"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tvFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha: 30/09/2025"
+        android:textSize="14sp"/>
+</LinearLayout>

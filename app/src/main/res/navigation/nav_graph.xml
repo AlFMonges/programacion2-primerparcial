@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/estudianteListFragment">
+
+    <fragment
+        android:id="@+id/estudianteListFragment"
+        android:name="com.examenparcial1.universidadapp.ui.fragments.EstudianteListFragment"
+        android:label="Lista de Estudiantes"
+        tools:layout="@layout/fragment_estudiante_list" >
+        <action
+            android:id="@+id/action_estudianteList_to_estudianteForm"
+            app:destination="@id/estudianteFormFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/estudianteFormFragment"
+        android:name="com.examenparcial1.universidadapp.ui.fragments.EstudianteFormFragment"
+        android:label="Formulario de Estudiante"
+        tools:layout="@layout/fragment_estudiante_form" />
+
+    <fragment
+        android:id="@+id/profesorListFragment"
+        android:name="com.examenparcial1.universidadapp.ui.fragments.ProfesorListFragment"
+        android:label="Lista de Profesores"
+        tools:layout="@layout/fragment_profesor_list" >
+        <action
+            android:id="@+id/action_profesorListFragment_to_profesorFormFragment"
+            app:destination="@id/profesorFormFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profesorFormFragment"
+        android:name="com.examenparcial1.universidadapp.ui.fragments.ProfesorFormFragment"
+        android:label="Formulario de Profesor"
+        tools:layout="@layout/fragment_profesor_form" />
+
+    <fragment
+        android:id="@+id/cursoListFragment"
+        android:name="com.examenparcial1.universidadapp.ui.fragments.CursoListFragment"
+        android:label="Lista de Cursos"
+        tools:layout="@layout/fragment_curso_list" />
+
+    <fragment
+        android:id="@+id/inscripcionListFragment"
+        android:name="com.examenparcial1.universidadapp.ui.fragments.InscripcionListFragment"
+        android:label="Lista de Inscripciones"
+        tools:layout="@layout/fragment_inscripcion_list" />
+
+</navigation>
