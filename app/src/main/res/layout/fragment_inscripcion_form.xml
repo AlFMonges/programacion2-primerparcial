@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.InscripcionFormFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Sección de Estudiante -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estudiante"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/etDocumentoEstudiante"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nro. de Documento del Estudiante"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/tvNombreEstudiante"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:background="#EEEEEE"
+            android:text="Estudiante no seleccionado"
+            android:textColor="@color/black" />
+
+        <!-- Sección de Curso -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Curso"
+            android:layout_marginTop="24dp"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvCursoSeleccionado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:drawableEnd="@android:drawable/ic_menu_search"
+            android:gravity="center_vertical"
+            android:text="Toca para seleccionar un curso"
+            android:textColor="@color/black" />
+
+        <!-- Botón de Guardar -->
+        <Button
+            android:id="@+id/btnGuardarInscripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Guardar Inscripción"
+            android:backgroundTint="@color/new_sky_blue" />
+
+    </LinearLayout>
+</ScrollView>

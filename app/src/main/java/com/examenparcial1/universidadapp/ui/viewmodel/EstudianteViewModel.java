@@ -26,9 +26,12 @@ public class EstudianteViewModel extends AndroidViewModel {
         return listaEstudiantes;
     }
 
+    public LiveData<Estudiante> obtenerPorDocumento(String nroDocumento) {
+        return repo.obtenerPorDocumento(nroDocumento);
+    }
+
     public void insertar(Estudiante e) { repo.insertar(e); }
     public void actualizar(Estudiante e) { repo.actualizar(e); }
     public void eliminar(Estudiante e) { repo.eliminar(e); }
     public LiveData<Estudiante> obtenerPorId(int id) { return repo.obtenerPorId(id); }
-
 }

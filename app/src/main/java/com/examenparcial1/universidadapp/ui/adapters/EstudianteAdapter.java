@@ -14,12 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.ViewHolder> {
-    public EstudianteAdapter(List<Estudiante> lista) {
-        this.lista = lista;
-    }
-
 
     private List<Estudiante> lista = new ArrayList<>();
+    private OnEstudianteActionListener listener;
+
+    // Interface para manejar los eventos de clic
+    public interface OnEstudianteActionListener {
+        void onEditarClick(Estudiante estudiante);
+        void onEliminarClick(Estudiante estudiante);
+    }
+
+    public EstudianteAdapter(OnEstudianteActionListener listener) {
+        this.listener = listener;
+    }
 
     public void setLista(List<Estudiante> lista) {
         this.lista = lista;
@@ -38,10 +45,7 @@ public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Estudiante e = lista.get(position);
-        holder.binding.tvNombre.setText(e.nombres + " " + e.apellidos);
-        holder.binding.tvDocumento.setText(e.nroDocumento);
-        holder.binding.tvTelefono.setText(e.telefono);
-        holder.binding.tvEmail.setText(e.email);
+        holder.bind(e, listener);
     }
 
     @Override
@@ -51,9 +55,20 @@ public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.Vi
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ItemEstudianteBinding binding;
+
         public ViewHolder(ItemEstudianteBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+        }
+
+        public void bind(final Estudiante estudiante, final OnEstudianteActionListener listener) {
+            binding.tvNombre.setText(estudiante.nombres + " " + estudiante.apellidos);
+            binding.tvDocumento.setText(estudiante.nroDocumento);
+            binding.tvTelefono.setText(estudiante.telefono);
+            binding.tvEmail.setText(estudiante.email);
+
+            binding.btnEditarEstudiante.setOnClickListener(v -> listener.onEditarClick(estudiante));
+            binding.btnEliminarEstudiante.setOnClickListener(v -> listener.onEliminarClick(estudiante));
         }
     }
 }

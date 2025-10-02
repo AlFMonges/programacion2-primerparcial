@@ -1,38 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/tvNombre"
+    <LinearLayout
+        android:id="@+id/info_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre Apellido"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/actions_container">
 
-    <TextView
-        android:id="@+id/tvDocumento"
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre Apellido"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvDocumento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12345678"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tvTelefono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="099999999"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email@ejemplo.com"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/actions_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12345678"
-        android:textSize="14sp"/>
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true">
 
-    <TextView
-        android:id="@+id/tvTelefono"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="099999999"
-        android:textSize="14sp"/>
+        <ImageButton
+            android:id="@+id/btnEditarEstudiante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_edit"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Editar"/>
 
-    <TextView
-        android:id="@+id/tvEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="email@ejemplo.com"
-        android:textSize="14sp"/>
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/btnEliminarEstudiante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Eliminar"/>
+    </LinearLayout>
 
+</RelativeLayout>

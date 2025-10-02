@@ -1,25 +1,36 @@
 package com.examenparcial1.universidadapp.ui.fragments;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import com.examenparcial1.universidadapp.data.entities.Profesor;
-import com.examenparcial1.universidadapp.databinding.FragmentProfesorFormBinding; // Asumiendo este nombre para el binding
+import com.examenparcial1.universidadapp.databinding.FragmentProfesorFormBinding;
 import com.examenparcial1.universidadapp.ui.viewmodel.ProfesorViewModel;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class ProfesorFormFragment extends Fragment {
 
     private FragmentProfesorFormBinding binding;
     private ProfesorViewModel viewModel;
+    private int profesorId = -1; // Variable para almacenar el ID del profesor a editar
+    private Profesor profesorActual = null; // Variable para almacenar el profesor actual
 
     public ProfesorFormFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            profesorId = getArguments().getInt("profesorId", -1);
+        }
     }
 
     @Override
@@ -30,9 +41,26 @@ public class ProfesorFormFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(ProfesorViewModel.class);
 
+        if (profesorId != -1) {
+            // Estamos en modo edición, observar el profesor para llenar el formulario
+            viewModel.obtenerPorId(profesorId).observe(getViewLifecycleOwner(), profesor -> {
+                if (profesor != null) {
+                    profesorActual = profesor;
+                    llenarFormulario(profesor);
+                }
+            });
+        }
+
         binding.btnGuardarProfesor.setOnClickListener(v -> guardarProfesor());
 
         return view;
+    }
+
+    private void llenarFormulario(Profesor profesor) {
+        binding.etNombresProfesor.setText(profesor.nombres);
+        binding.etApellidosProfesor.setText(profesor.apellidos);
+        binding.etTelefonoProfesor.setText(profesor.telefono);
+        binding.etEmailProfesor.setText(profesor.email);
     }
 
     private void guardarProfesor() {
@@ -47,10 +75,21 @@ public class ProfesorFormFragment extends Fragment {
             return;
         }
 
-        Profesor nuevoProfesor = new Profesor(nombres, apellidos, telefono, email);
-        viewModel.insertar(nuevoProfesor);
+        if (profesorActual != null && profesorId != -1) {
+            // Actualizar profesor existente
+            profesorActual.nombres = nombres;
+            profesorActual.apellidos = apellidos;
+            profesorActual.telefono = telefono;
+            profesorActual.email = email;
+            viewModel.actualizar(profesorActual);
+            Toast.makeText(getContext(), "Profesor actualizado", Toast.LENGTH_SHORT).show();
+        } else {
+            // Crear nuevo profesor
+            Profesor nuevoProfesor = new Profesor(nombres, apellidos, telefono, email);
+            viewModel.insertar(nuevoProfesor);
+            Toast.makeText(getContext(), "Profesor guardado", Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(getContext(), "Profesor guardado", Toast.LENGTH_SHORT).show();
         // Navegar de regreso a la lista de profesores
         Navigation.findNavController(requireView()).popBackStack();
     }

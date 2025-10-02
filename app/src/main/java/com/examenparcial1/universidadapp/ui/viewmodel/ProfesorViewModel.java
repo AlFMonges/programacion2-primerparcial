@@ -23,12 +23,22 @@ public class ProfesorViewModel extends AndroidViewModel {
         return listaProfesores;
     }
 
+    // Metodo añadido para obtener un profesor por su ID
+    public LiveData<Profesor> obtenerPorId(int profesorId) {
+        return repository.obtenerPorId(profesorId);
+    }
+
     public void insertar(Profesor profesor) {
         repository.insertar(profesor);
     }
 
-    // Si necesitas actualizar o eliminar profesores en el futuro,
-    // puedes agregar los métodos aquí llamando a los correspondientes del repositorio.
-    // public void actualizar(Profesor profesor) { repository.actualizar(profesor); }
-    // public void eliminar(Profesor profesor) { repository.eliminar(profesor); }
+    // Metodo para actualizar un profesor
+    public void actualizar(Profesor profesor) {
+        repository.actualizar(profesor);
+    }
+
+    // Metodo para eliminar un profesor
+    public void eliminar(Profesor profesor) {
+        repository.eliminar(profesor);
+    }
 }

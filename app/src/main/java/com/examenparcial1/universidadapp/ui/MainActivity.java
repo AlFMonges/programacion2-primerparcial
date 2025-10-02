@@ -1,6 +1,10 @@
 package com.examenparcial1.universidadapp.ui;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -23,18 +27,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Configurar la Toolbar
         setSupportActionBar(binding.toolbar);
 
-        // Obtener el NavController desde el NavHostFragment
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
             navController = navHostFragment.getNavController();
 
-            // Definir los destinos de nivel superior para AppBarConfiguration.
-            // Estos son los fragmentos accesibles directamente desde la BottomNavigationView,
-            // donde el botón "Up" no debería mostrarse.
             Set<Integer> topLevelDestinations = new HashSet<>();
             topLevelDestinations.add(R.id.estudianteListFragment);
             topLevelDestinations.add(R.id.profesorListFragment);
@@ -43,18 +42,44 @@ public class MainActivity extends AppCompatActivity {
 
             appBarConfiguration = new AppBarConfiguration.Builder(topLevelDestinations).build();
 
-            // Configurar la Toolbar con NavController y AppBarConfiguration
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-            // Configurar la BottomNavigationView con NavController
             NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                // Usamos post() para asegurarnos de que nuestro código se ejecute
+                // después del listener interno de NavigationUI.
+                binding.bottomNavigation.post(() -> {
+                    int currentDestinationId = destination.getId();
+
+                    boolean isCursoSelectionMode = (currentDestinationId == R.id.cursoListFragment)
+                            && (arguments != null && arguments.getBoolean("isSelectionMode"));
+
+                    if (currentDestinationId == R.id.inscripcionFormFragment || isCursoSelectionMode) {
+                        binding.bottomNavigation.getMenu().findItem(R.id.inscripcionListFragment).setChecked(true);
+                    }
+                });
+            });
         }
     }
 
-    // Sobrescribir onSupportNavigateUp para manejar la navegación "Up" con el NavController
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_exit) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

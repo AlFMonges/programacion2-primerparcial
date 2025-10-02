@@ -7,45 +7,72 @@
     <fragment
         android:id="@+id/estudianteListFragment"
         android:name="com.examenparcial1.universidadapp.ui.fragments.EstudianteListFragment"
-        android:label="Lista de Estudiantes"
+        android:label="Estudiantes"
         tools:layout="@layout/fragment_estudiante_list" >
         <action
             android:id="@+id/action_estudianteList_to_estudianteForm"
             app:destination="@id/estudianteFormFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/estudianteFormFragment"
         android:name="com.examenparcial1.universidadapp.ui.fragments.EstudianteFormFragment"
-        android:label="Formulario de Estudiante"
-        tools:layout="@layout/fragment_estudiante_form" />
-
+        android:label="Formulario Estudiante"
+        tools:layout="@layout/fragment_estudiante_form" >
+        <argument
+            android:name="estudianteId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
     <fragment
         android:id="@+id/profesorListFragment"
         android:name="com.examenparcial1.universidadapp.ui.fragments.ProfesorListFragment"
-        android:label="Lista de Profesores"
+        android:label="Profesores"
         tools:layout="@layout/fragment_profesor_list" >
         <action
             android:id="@+id/action_profesorListFragment_to_profesorFormFragment"
             app:destination="@id/profesorFormFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/profesorFormFragment"
         android:name="com.examenparcial1.universidadapp.ui.fragments.ProfesorFormFragment"
-        android:label="Formulario de Profesor"
-        tools:layout="@layout/fragment_profesor_form" />
+        android:label="Formulario Profesor"
+        tools:layout="@layout/fragment_profesor_form" >
+        <argument
+            android:name="profesorId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/cursoListFragment"
         android:name="com.examenparcial1.universidadapp.ui.fragments.CursoListFragment"
-        android:label="Lista de Cursos"
-        tools:layout="@layout/fragment_curso_list" />
+        android:label="Cursos disponibles"
+        tools:layout="@layout/fragment_curso_list" >
+        <!-- Verifica si está seleccionando un curso o solo está observando la lista -->
+        <argument
+            android:name="isSelectionMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 
     <fragment
         android:id="@+id/inscripcionListFragment"
         android:name="com.examenparcial1.universidadapp.ui.fragments.InscripcionListFragment"
         android:label="Lista de Inscripciones"
-        tools:layout="@layout/fragment_inscripcion_list" />
+        tools:layout="@layout/fragment_inscripcion_list" >
+        <action
+            android:id="@+id/action_inscripcionList_to_inscripcionForm"
+            app:destination="@id/inscripcionFormFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inscripcionFormFragment"
+        android:name="com.examenparcial1.universidadapp.ui.fragments.InscripcionFormFragment"
+        android:label="Nueva Inscripción"
+        tools:layout="@layout/fragment_inscripcion_form" >
+        <action
+            android:id="@+id/action_inscripcionFormFragment_to_cursoListFragment"
+            app:destination="@id/cursoListFragment" />
+    </fragment>
 
 </navigation>

@@ -3,10 +3,12 @@ package com.examenparcial1.universidadapp.data.repository;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.examenparcial1.universidadapp.data.AppDatabase;
 import com.examenparcial1.universidadapp.data.dao.InscripcionDao;
 import com.examenparcial1.universidadapp.data.entities.Inscripcion;
+import com.examenparcial1.universidadapp.data.relations.InscripcionDetalle; // Importar el POJO
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -22,8 +24,17 @@ public class InscripcionRepository {
         inscripcionDao = db.inscripcionDao();
     }
 
-    public LiveData<List<Inscripcion>> obtenerInscripciones() {
-        return inscripcionDao.obtenerInscripciones();
+    public LiveData<List<InscripcionDetalle>> obtenerInscripcionesConDetalles() {
+        return inscripcionDao.obtenerInscripcionesConDetalles();
+    }
+
+    public LiveData<Inscripcion> obtenerPorIds(int estudianteId, int cursoId) {
+        MutableLiveData<Inscripcion> resultado = new MutableLiveData<>();
+        executor.execute(() -> {
+            Inscripcion inscripcion = inscripcionDao.obtenerPorIds(estudianteId, cursoId);
+            resultado.postValue(inscripcion);
+        });
+        return resultado;
     }
 
     public void insertar(Inscripcion inscripcion) {

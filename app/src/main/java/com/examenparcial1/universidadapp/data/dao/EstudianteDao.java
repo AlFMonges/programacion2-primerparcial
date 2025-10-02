@@ -34,4 +34,8 @@ public interface EstudianteDao {
     @Transaction
     @Query("SELECT * FROM estudiantes WHERE id = :id")
     LiveData<EstudianteConCursos> obtenerConCursos(int id);
+
+    // Nota: No devuelve LiveData porque lo llamaremos bajo demanda.
+    @Query("SELECT * FROM estudiantes WHERE nro_documento = :nroDocumento LIMIT 1")
+    Estudiante obtenerPorDocumento(String nroDocumento);
 }

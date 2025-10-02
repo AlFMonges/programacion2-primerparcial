@@ -1,8 +1,9 @@
 package com.examenparcial1.universidadapp.data.repository;
 
 import android.app.Application;
-import android.content.Context;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData; // Importar MutableLiveData
+
 import com.examenparcial1.universidadapp.data.AppDatabase;
 import com.examenparcial1.universidadapp.data.dao.EstudianteDao;
 import com.examenparcial1.universidadapp.data.entities.Estudiante;
@@ -25,6 +26,16 @@ public class EstudianteRepository {
 
     public LiveData<Estudiante> obtenerPorId(int id) {
         return dao.obtenerPorId(id);
+    }
+
+    public LiveData<Estudiante> obtenerPorDocumento(String nroDocumento) {
+        // Usamos MutableLiveData para poder postear el valor desde el hilo de fondo porque Room no permite consultas en el hilo proincipal
+        MutableLiveData<Estudiante> resultado = new MutableLiveData<>();
+        executor.execute(() -> {
+            Estudiante estudiante = dao.obtenerPorDocumento(nroDocumento);
+            resultado.postValue(estudiante);
+        });
+        return resultado;
     }
 
     public void insertar(final Estudiante e) {

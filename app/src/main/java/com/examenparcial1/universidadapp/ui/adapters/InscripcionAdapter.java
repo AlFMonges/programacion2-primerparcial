@@ -5,17 +5,30 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.examenparcial1.universidadapp.data.entities.Inscripcion;
+import com.examenparcial1.universidadapp.data.relations.InscripcionDetalle;
 import com.examenparcial1.universidadapp.databinding.ItemInscripcionBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class InscripcionAdapter extends RecyclerView.Adapter<InscripcionAdapter.ViewHolder> {
 
-    private List<Inscripcion> lista = new ArrayList<>();
+    private List<InscripcionDetalle> lista = new ArrayList<>();
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    private OnInscripcionActionListener listener; // Listener para la acción
 
-    public void setLista(List<Inscripcion> lista) {
+    // --- INTERFAZ PARA EL CALLBACK ---
+    public interface OnInscripcionActionListener {
+        void onEliminarClick(InscripcionDetalle inscripcionDetalle);
+    }
+
+    public void setListener(OnInscripcionActionListener listener) {
+        this.listener = listener;
+    }
+
+    public void setLista(List<InscripcionDetalle> lista) {
         this.lista = lista;
         notifyDataSetChanged();
     }
@@ -31,10 +44,8 @@ public class InscripcionAdapter extends RecyclerView.Adapter<InscripcionAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Inscripcion i = lista.get(position);
-        holder.binding.tvEstudiante.setText("Estudiante ID: " + i.estudianteId);
-        holder.binding.tvCurso.setText("Curso ID: " + i.cursoId);
-        holder.binding.tvFecha.setText("Fecha: " + i.fechaInscripcion);
+        InscripcionDetalle i = lista.get(position);
+        holder.bind(i, dateFormat, listener);
     }
 
     @Override
@@ -44,10 +55,28 @@ public class InscripcionAdapter extends RecyclerView.Adapter<InscripcionAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         ItemInscripcionBinding binding;
+
         public ViewHolder(ItemInscripcionBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
+
+        public void bind(final InscripcionDetalle inscripcionDetalle, SimpleDateFormat dateFormat, final OnInscripcionActionListener listener) {
+            binding.tvEstudiante.setText("Estudiante: " + inscripcionDetalle.nombreEstudiante);
+            binding.tvCurso.setText("Curso: " + inscripcionDetalle.nombreCurso);
+
+            if (inscripcionDetalle.inscripcion.fechaInscripcion != null) {
+                binding.tvFecha.setText("Fecha: " + dateFormat.format(inscripcionDetalle.inscripcion.fechaInscripcion));
+            } else {
+                binding.tvFecha.setText("Fecha: No especificada");
+            }
+
+            // El metodo bind también recibe el listener
+            binding.btnEliminarInscripcion.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onEliminarClick(inscripcionDetalle);
+                }
+            });
+        }
     }
 }
-

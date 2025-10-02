@@ -4,23 +4,28 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
 import com.examenparcial1.universidadapp.data.entities.Curso;
+import com.examenparcial1.universidadapp.data.relations.CursoConProfesor;
 import com.examenparcial1.universidadapp.data.repository.CursoRepository;
 import java.util.List;
 
 public class CursoViewModel extends AndroidViewModel {
 
     private CursoRepository repository;
-    private LiveData<List<Curso>> listaCursos;
+    private LiveData<List<CursoConProfesor>> listaCursosConProfesor;
 
     public CursoViewModel(@NonNull Application application) {
         super(application);
         repository = new CursoRepository(application);
-        listaCursos = repository.obtenerTodos();
+        listaCursosConProfesor = repository.obtenerCursosConProfesor();
     }
 
-    public LiveData<List<Curso>> getListaCursos() {
-        return listaCursos;
+    public LiveData<List<CursoConProfesor>> getListaCursosConProfesor() {
+        return listaCursosConProfesor;
     }
 
+    public LiveData<Curso> obtenerPorId(int cursoId) {
+        return repository.obtenerPorId(cursoId);
+    }
 }

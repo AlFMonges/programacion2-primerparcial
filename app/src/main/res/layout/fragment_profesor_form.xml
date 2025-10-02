@@ -39,8 +39,8 @@
             android:id="@+id/btnGuardarProfesor"
             android:text="Guardar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/new_sky_blue" />
 
     </LinearLayout>
 </ScrollView>
-

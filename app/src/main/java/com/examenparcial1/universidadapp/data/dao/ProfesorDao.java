@@ -17,6 +17,9 @@ public interface ProfesorDao {
     @Query("SELECT * FROM profesores ORDER BY nombres ASC")
     LiveData<List<Profesor>> obtenerProfesores();
 
+    @Query("SELECT * FROM profesores WHERE id = :profesorId")
+    LiveData<Profesor> obtenerPorId(int profesorId);
+
     @Insert
     void insertar(Profesor profesor);
 
@@ -25,5 +28,7 @@ public interface ProfesorDao {
 
     @Delete
     void eliminar(Profesor profesor);
-}
 
+    @Query("DELETE FROM profesores")
+    void eliminarTodos();
+}

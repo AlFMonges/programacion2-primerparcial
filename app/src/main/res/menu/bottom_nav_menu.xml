@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/inscripcionListFragment"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_inscripcion_add"
         android:title="Inscripciones" />
 
 </menu>

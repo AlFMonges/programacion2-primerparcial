@@ -23,6 +23,11 @@ public class ProfesorRepository {
         return profesorDao.obtenerProfesores();
     }
 
+    // Obtener un profesor por su ID
+    public LiveData<Profesor> obtenerPorId(int profesorId) {
+        return profesorDao.obtenerPorId(profesorId);
+    }
+
     public void insertar(Profesor profesor) {
         executor.execute(() -> profesorDao.insertar(profesor));
     }

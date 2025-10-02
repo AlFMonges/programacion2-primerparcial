@@ -5,13 +5,23 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.examenparcial1.universidadapp.data.entities.Profesor;
-import com.examenparcial1.universidadapp.databinding.ItemProfesorBinding; // Asumiendo que esta clase de binding se generará
+import com.examenparcial1.universidadapp.databinding.ItemProfesorBinding;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfesorAdapter extends RecyclerView.Adapter<ProfesorAdapter.ViewHolder> {
 
     private List<Profesor> listaProfesores = new ArrayList<>();
+    private OnProfesorActionListener listener;
+
+    // Interface para manejar los eventos de clic (solo editar)
+    public interface OnProfesorActionListener {
+        void onEditarClick(Profesor profesor);
+    }
+
+    public ProfesorAdapter(OnProfesorActionListener listener) {
+        this.listener = listener;
+    }
 
     public void setLista(List<Profesor> nuevaLista) {
         this.listaProfesores = nuevaLista;
@@ -30,11 +40,7 @@ public class ProfesorAdapter extends RecyclerView.Adapter<ProfesorAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Profesor profesor = listaProfesores.get(position);
-        holder.binding.tvNombreProfesor.setText(profesor.nombres + " " + profesor.apellidos);
-        holder.binding.tvEmailProfesor.setText(profesor.email);
-        // Si tienes más campos en item_profesor.xml, puedes enlazarlos aquí.
-        // Por ejemplo, si tuvieras un TextView para el teléfono:
-        // holder.binding.tvTelefonoProfesor.setText(profesor.telefono);
+        holder.bind(profesor, listener);
     }
 
     @Override
@@ -48,6 +54,13 @@ public class ProfesorAdapter extends RecyclerView.Adapter<ProfesorAdapter.ViewHo
         public ViewHolder(ItemProfesorBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+        }
+
+        public void bind(final Profesor profesor, final OnProfesorActionListener listener) {
+            binding.tvNombreProfesor.setText(profesor.nombres + " " + profesor.apellidos);
+            binding.tvEmailProfesor.setText("Correo: " + profesor.email);
+
+            binding.btnEditarProfesor.setOnClickListener(v -> listener.onEditarClick(profesor));
         }
     }
 }
