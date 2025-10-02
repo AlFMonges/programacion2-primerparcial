@@ -29,6 +29,4 @@ public interface ProfesorDao {
     @Delete
     void eliminar(Profesor profesor);
 
-    @Query("DELETE FROM profesores")
-    void eliminarTodos();
 }

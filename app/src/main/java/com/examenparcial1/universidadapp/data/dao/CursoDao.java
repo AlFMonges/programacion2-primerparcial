@@ -27,9 +27,6 @@ public interface CursoDao {
     @Query("SELECT * FROM cursos ORDER BY nombre ASC")
     LiveData<List<Curso>> obtenerTodos();
 
-    @Query("DELETE FROM cursos")
-    void eliminarTodos();
-
     // Consulta con JOIN
     @Query("SELECT c.*, p.nombres || ' ' || p.apellidos AS nombreProfesor " +
            "FROM cursos c " +
